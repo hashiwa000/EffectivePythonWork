@@ -1,0 +1,37 @@
+from datetime import datetime, timedelta
+
+def a(bucket, amount):
+    if bucket.deduct(amount):
+        print 'Had %s quota' % amount
+    else:
+        print 'Not enough for %s quota' % amount
+
+
+class Bucket(object):
+    def __init__(self, period):
+        self.period_delta = timedelta(seconds=period)
+        self.reset_time = datetime.utcnow()
+        self.quota = 0
+
+    def fill(self, amount):
+        now = datetime.utcnow()
+        if now - self.reset_time >  self.period_delta:
+            self.quota = 0
+            self.reset_time = now
+        self.quota += amount
+
+    def deduct(self, amount):
+        now = datetime.utcnow()
+        if now - self.reset_time >  self.period_delta:
+            return False
+        if self.quota - amount < 0:
+            return False
+        self.quota -= amount
+        return True
+
+    def __repr__(self):
+        return 'Bucket(quota=%d)' % self.quota
+
+
+
+
