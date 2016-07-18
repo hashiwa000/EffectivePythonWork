@@ -24,3 +24,10 @@ class Exam(object):
     writing_grade = Grade()
     science_grade = Grade()
 
+if __name__ == '__main__':
+    first_exam = Exam()
+    first_exam.writing_grade = 82
+    second_exam = Exam()
+    second_exam.writing_grade = 75
+    print 'First  %s is right' % first_exam.writing_grade
+    print 'Second %s is right' % second_exam.writing_grade
